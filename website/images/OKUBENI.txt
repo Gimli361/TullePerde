@@ -1,0 +1,12 @@
+Görselleri bu klasöre aşağıdaki adlarla koyun (.jpg, .webp veya .png).
+Dosya bulunamazsa sitede çizgili yer tutucu görünür.
+
+v2-cover        Kapak (gün ışığı alan salon, tül perde) — yatay, en az 2400px genişlik
+v2-cat-tul      Koleksiyon paneli: Tül Perde
+v2-cat-fon      Koleksiyon paneli: Fon Perde
+v2-cat-stor     Koleksiyon paneli: Stor & Zebra
+v2-cat-ozel     Koleksiyon paneli: Ölçüye Özel
+v2-split-tul    Hikaye: Tül detay (dikey 4:5)
+v2-split-fon    Hikaye: Fon perde (dikey 4:5)
+v2-p1 … v2-p8   Ürünler: Lina Keten Tül, Mira Etamin, Vera Vual, Sora Keten Fon,
+                Nil Kadife Fon, Ela Blackout, Ada Stor, Ece Zebra (5:4)

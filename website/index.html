@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tulle Perde — Ölçüye Özel Tül, Fon ve Stor Perde</title>
+<meta name="description" content="Ölçüye özel dikilen tül ve fon perdeler; sade, hafif ve uzun ömürlü. Ölçüden montaja, tek elden.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Logo sembolü (header, loader ve footer'da tekrar kullanılır) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="logo-mark">
+      <path d="M0 2.5H80 M40 2.5V45"/><path d="M102.5 0V20C102.5 36 116 42.5 135 42.5C154 42.5 167.5 36 167.5 20V0"/><path d="M192.5 0V42.5H250"/><path d="M272.5 0V42.5H330"/><path d="M410 2.5H352.5V42.5H410 M352.5 22.5H402"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- ===== AÇILIŞ ===== -->
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader__logo" width="210" height="50" viewBox="0 0 410 98">
+    <g class="loader__strokes">
+      <path d="M0 2.5H80 M40 2.5V45"/><path d="M102.5 0V20C102.5 36 116 42.5 135 42.5C154 42.5 167.5 36 167.5 20V0"/><path d="M192.5 0V42.5H250"/><path d="M272.5 0V42.5H330"/><path d="M410 2.5H352.5V42.5H410 M352.5 22.5H402"/>
+    </g>
+    <text class="loader__text" x="0" y="88" textLength="410" lengthAdjust="spacing">perde</text>
+  </svg>
+  <div class="loader__bar"></div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header class="hdr" id="hdr">
+  <div class="hdr__inner">
+    <a href="#top" class="hdr__logo" aria-label="Tulle Perde">
+      <svg width="128" height="31" viewBox="0 0 410 98"><use href="#logo-mark" class="logo-strokes"/><text x="0" y="88" textLength="410" lengthAdjust="spacing" class="logo-text">perde</text></svg>
+    </a>
+    <nav class="hdr__nav" aria-label="Ana menü">
+      <a href="#top" class="ulink" data-menu="close">Ana Sayfa</a>
+      <a href="#koleksiyon" class="ulink" data-menu="open">Koleksiyon</a>
+      <a href="#hikaye" class="ulink" data-menu="close">Hikayemiz</a>
+      <a href="#urunler" class="ulink" data-menu="close">Yeni Sezon</a>
+      <a href="#iletisim" class="ulink" data-menu="close">İletişim</a>
+      <a href="#randevu" class="hdr__cta" data-menu="close">Ölçü Randevusu</a>
+    </nav>
+    <div class="hdr__tools">
+      <button class="hdr__search" id="openSearch" aria-label="Ürün ara">
+        <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5"/><path d="M11 11L15 15"/></svg>
+      </button>
+      <button class="hdr__burger" id="openMobile" aria-label="Menü">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <!-- Koleksiyon alt menüsü -->
+  <div class="mega" id="mega">
+    <div class="mega__inner">
+      <div class="mega__intro">
+        <span class="eyebrow-sm">Koleksiyon</span>
+        <span class="mega__lead">Her pencere için hafif ve sakin dokular</span>
+      </div>
+      <div class="mega__grid">
+        <a href="#koleksiyon" class="mega__item"><span class="num">01</span><span class="mega__name">Tül Perde</span><span class="mega__line">Işığı süzen, ince dokulu tüller</span></a>
+        <a href="#koleksiyon" class="mega__item"><span class="num">02</span><span class="mega__name">Fon Perde</span><span class="mega__line">Keten ve kadife fonlar</span></a>
+        <a href="#koleksiyon" class="mega__item"><span class="num">03</span><span class="mega__name">Stor &amp; Zebra</span><span class="mega__line">Sade ve mekanizmalı çözümler</span></a>
+        <a href="#koleksiyon" class="mega__item"><span class="num">04</span><span class="mega__name">Ölçüye Özel</span><span class="mega__line">Her pencereye göre dikim</span></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobil menü -->
+<div class="mob" id="mob" aria-hidden="true">
+  <button class="mob__close" data-close-mobile aria-label="Kapat">×</button>
+  <a href="#top" data-close-mobile>Ana Sayfa</a>
+  <a href="#koleksiyon" data-close-mobile>Koleksiyon</a>
+  <a href="#hikaye" data-close-mobile>Hikayemiz</a>
+  <a href="#urunler" data-close-mobile>Yeni Sezon</a>
+  <a href="#iletisim" data-close-mobile>İletişim</a>
+</div>
+
+<!-- Arama -->
+<div class="sr" id="sr" aria-hidden="true">
+  <div class="sr__backdrop" data-close-search></div>
+  <div class="sr__panel" role="dialog" aria-label="Ürün ara">
+    <div class="sr__head">
+      <span class="sr__title">Ürün ara</span>
+      <button class="sr__close" data-close-search aria-label="Kapat">×</button>
+    </div>
+    <input id="srInput" type="search" placeholder="Ürün adı veya kod yazın…" autocomplete="off">
+    <div class="sr__results" id="srResults"></div>
+  </div>
+</div>
+
+<main id="top">
+  <!-- ===== COVER ===== -->
+  <section class="cover">
+    <div class="cover__media">
+      <div class="slot slot--dark" data-slot="v2-cover" data-ph="Kapak görseli · gün ışığı alan salon, tül perde"></div>
+    </div>
+    <div class="cover__shade"></div>
+    <div class="cover__content">
+      <div class="cover__text">
+        <span class="cover__eyebrow">Tül · Fon · Stor</span>
+        <h1>Işığı süzen, evi <em>yumuşatan</em> perdeler</h1>
+        <p>Ölçüye özel dikilen tül ve fon perdeler; sade, hafif ve uzun ömürlü.</p>
+        <div class="btns">
+          <a href="#koleksiyon" class="btn btn--light">Koleksiyonu Keşfet</a>
+          <a href="#randevu" class="btn btn--ghost">Ölçü Randevusu</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== KOLEKSİYON PANELLERİ ===== -->
+  <section id="koleksiyon" class="section">
+    <div class="wrap">
+      <div class="sec-head reveal fade">
+        <div class="vline"></div>
+        <span class="eyebrow">Koleksiyonlar</span>
+        <h2>Her pencereye <em>bir doku</em></h2>
+        <p>Tül, fon ve stor perdelerimizi pencerenizin ölçüsüne göre atölyemizde dikiyoruz.</p>
+      </div>
+      <div class="panels">
+        <a href="#urunler" class="panel panel--a reveal">
+          <div class="zoom"><div class="hover-zoom"><div class="slot" data-slot="v2-cat-tul" data-ph="Tül Perde görseli"></div></div></div>
+          <div class="panel__shade"></div>
+          <div class="panel__cap"><div><span class="num">01</span><span class="panel__name">Tül Perde</span></div><span class="panel__more">Keşfet →</span></div>
+          <div class="curtain"></div>
+        </a>
+        <a href="#urunler" class="panel panel--b reveal" style="--d:.12s">
+          <div class="zoom"><div class="hover-zoom"><div class="slot" data-slot="v2-cat-fon" data-ph="Fon Perde görseli"></div></div></div>
+          <div class="panel__shade"></div>
+          <div class="panel__cap"><div><span class="num">02</span><span class="panel__name">Fon Perde</span></div><span class="panel__more">Keşfet →</span></div>
+          <div class="curtain"></div>
+        </a>
+        <a href="#urunler" class="panel panel--b reveal">
+          <div class="zoom"><div class="hover-zoom"><div class="slot" data-slot="v2-cat-stor" data-ph="Stor &amp; Zebra görseli"></div></div></div>
+          <div class="panel__shade"></div>
+          <div class="panel__cap"><div><span class="num">03</span><span class="panel__name">Stor &amp; Zebra</span></div><span class="panel__more">Keşfet →</span></div>
+          <div class="curtain"></div>
+        </a>
+        <a href="#urunler" class="panel panel--a reveal" style="--d:.12s">
+          <div class="zoom"><div class="hover-zoom"><div class="slot" data-slot="v2-cat-ozel" data-ph="Ölçüye Özel görseli"></div></div></div>
+          <div class="panel__shade"></div>
+          <div class="panel__cap"><div><span class="num">04</span><span class="panel__name">Ölçüye Özel</span></div><span class="panel__more">Keşfet →</span></div>
+          <div class="curtain"></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HİKAYE ===== -->
+  <section id="hikaye" class="section story">
+    <div class="wrap story__list">
+      <div class="split">
+        <div class="split__media reveal">
+          <div class="zoom"><div class="hover-zoom"><div class="slot" data-slot="v2-split-tul" data-ph="Tül detay görseli"></div></div></div>
+          <div class="curtain curtain--sand"></div>
+        </div>
+        <div class="split__text reveal fade fade--late">
+          <span class="eyebrow">01 — Tül Perde</span>
+          <h2>Işığı süzen <em>hafiflik</em></h2>
+          <p>Etamin, keten ve vual tüllerimiz gün ışığını yumuşatır, odayı karartmadan mahremiyet sağlar.</p>
+          <a href="#urunler" class="arrow-link">Tülleri İncele <span>→</span></a>
+        </div>
+      </div>
+      <div class="split split--rev">
+        <div class="split__media reveal">
+          <div class="zoom"><div class="hover-zoom"><div class="slot" data-slot="v2-split-fon" data-ph="Fon perde görseli"></div></div></div>
+          <div class="curtain curtain--sand"></div>
+        </div>
+        <div class="split__text reveal fade fade--late">
+          <span class="eyebrow">02 — Fon Perde</span>
+          <h2>Odaya derinlik veren <em>dokular</em></h2>
+          <p>Keten ve kadife fonlarımız tülle birlikte katman oluşturur; ışığı ve ısıyı dengeler.</p>
+          <a href="#urunler" class="arrow-link">Fonları İncele <span>→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== YENİ SEZON ÜRÜNLERİ ===== -->
+  <section id="urunler" class="section products">
+    <div class="wrap wrap--wide products__inner">
+      <div class="products__head reveal fade">
+        <div class="products__title">
+          <span class="eyebrow">Yeni Sezon</span>
+          <h2>Öne çıkan <em>ürünler</em></h2>
+        </div>
+        <div class="tabs" role="tablist">
+          <button class="tab is-active" data-tab="all" role="tab" aria-selected="true">Tümü</button>
+          <button class="tab" data-tab="tul" role="tab" aria-selected="false">Tül</button>
+          <button class="tab" data-tab="fon" role="tab" aria-selected="false">Fon</button>
+          <button class="tab" data-tab="stor" role="tab" aria-selected="false">Stor</button>
+        </div>
+      </div>
+      <div class="grid" id="productGrid">
+        <a href="#urunler" class="card reveal" data-type="tul" data-name="Lina Keten Tül" data-code="TP 101" style="--d:0s">
+          <div class="card__media"><div class="card__zoom"><div class="slot" data-slot="v2-p1" data-ph="Lina Keten Tül"></div></div><span class="card__tag">Tül</span></div>
+          <div class="card__body"><div><span class="card__name">Lina Keten Tül</span><span class="card__code">TP 101</span></div><span class="card__arrow">→</span></div>
+        </a>
+        <a href="#urunler" class="card reveal" data-type="tul" data-name="Mira Etamin" data-code="TP 114" style="--d:.08s">
+          <div class="card__media"><div class="card__zoom"><div class="slot" data-slot="v2-p2" data-ph="Mira Etamin"></div></div><span class="card__tag">Tül</span></div>
+          <div class="card__body"><div><span class="card__name">Mira Etamin</span><span class="card__code">TP 114</span></div><span class="card__arrow">→</span></div>
+        </a>
+        <a href="#urunler" class="card reveal" data-type="tul" data-name="Vera Vual" data-code="TP 122" style="--d:.16s">
+          <div class="card__media"><div class="card__zoom"><div class="slot" data-slot="v2-p3" data-ph="Vera Vual"></div></div><span class="card__tag">Tül</span></div>
+          <div class="card__body"><div><span class="card__name">Vera Vual</span><span class="card__code">TP 122</span></div><span class="card__arrow">→</span></div>
+        </a>
+        <a href="#urunler" class="card reveal" data-type="fon" data-name="Sora Keten Fon" data-code="TP 205" style="--d:.24s">
+          <div class="card__media"><div class="card__zoom"><div class="slot" data-slot="v2-p4" data-ph="Sora Keten Fon"></div></div><span class="card__tag">Fon</span></div>
+          <div class="card__body"><div><span class="card__name">Sora Keten Fon</span><span class="card__code">TP 205</span></div><span class="card__arrow">→</span></div>
+        </a>
+        <a href="#urunler" class="card reveal" data-type="fon" data-name="Nil Kadife Fon" data-code="TP 218" style="--d:0s">
+          <div class="card__media"><div class="card__zoom"><div class="slot" data-slot="v2-p5" data-ph="Nil Kadife Fon"></div></div><span class="card__tag">Fon</span></div>
+          <div class="card__body"><div><span class="card__name">Nil Kadife Fon</span><span class="card__code">TP 218</span></div><span class="card__arrow">→</span></div>
+        </a>
+        <a href="#urunler" class="card reveal" data-type="fon" data-name="Ela Blackout" data-code="TP 230" style="--d:.08s">
+          <div class="card__media"><div class="card__zoom"><div class="slot" data-slot="v2-p6" data-ph="Ela Blackout"></div></div><span class="card__tag">Fon</span></div>
+          <div class="card__body"><div><span class="card__name">Ela Blackout</span><span class="card__code">TP 230</span></div><span class="card__arrow">→</span></div>
+        </a>
+        <a href="#urunler" class="card reveal" data-type="stor" data-name="Ada Stor" data-code="TP 310" style="--d:.16s">
+          <div class="card__media"><div class="card__zoom"><div class="slot" data-slot="v2-p7" data-ph="Ada Stor"></div></div><span class="card__tag">Stor</span></div>
+          <div class="card__body"><div><span class="card__name">Ada Stor</span><span class="card__code">TP 310</span></div><span class="card__arrow">→</span></div>
+        </a>
+        <a href="#urunler" class="card reveal" data-type="stor" data-name="Ece Zebra" data-code="TP 324" style="--d:.24s">
+          <div class="card__media"><div class="card__zoom"><div class="slot" data-slot="v2-p8" data-ph="Ece Zebra"></div></div><span class="card__tag">Stor</span></div>
+          <div class="card__body"><div><span class="card__name">Ece Zebra</span><span class="card__code">TP 324</span></div><span class="card__arrow">→</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section id="randevu" class="cta">
+    <div class="sec-head reveal fade">
+      <div class="vline vline--light"></div>
+      <span class="eyebrow">Ölçüye Özel</span>
+      <h2>Ölçüden montaja, <em>tek elden</em></h2>
+      <p>Ekibimiz evinize gelip pencerelerinizi ölçer; perdeniz atölyemizde dikilir ve yerine takılır.</p>
+      <div class="btns btns--center">
+        <a href="#iletisim" class="btn btn--light">Randevu Al</a>
+        <a href="#iletisim" class="btn btn--ghost">Showroom</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer id="iletisim" class="ftr">
+  <div class="wrap">
+    <div class="ftr__grid">
+      <div class="ftr__brand">
+        <svg width="170" height="41" viewBox="0 0 410 98"><use href="#logo-mark" class="logo-strokes"/><text x="0" y="88" textLength="410" lengthAdjust="spacing" class="logo-text">perde</text></svg>
+        <p>Ölçüye özel tül, fon ve stor perde.</p>
+        <span class="ftr__motto">— Hafif, sakin, zarif</span>
+      </div>
+      <div class="ftr__col">
+        <span class="ftr__h">Menü</span>
+        <a href="#top">Ana Sayfa</a><a href="#koleksiyon">Koleksiyon</a><a href="#hikaye">Hikayemiz</a><a href="#urunler">Yeni Sezon</a><a href="#iletisim">İletişim</a>
+      </div>
+      <div class="ftr__col">
+        <span class="ftr__h">Koleksiyon</span>
+        <a href="#koleksiyon">Tül Perde</a><a href="#koleksiyon">Fon Perde</a><a href="#koleksiyon">Stor &amp; Zebra</a><a href="#koleksiyon">Ölçüye Özel</a>
+      </div>
+      <div class="ftr__col">
+        <span class="ftr__h">İletişim</span>
+        <span>Showroom adresi</span>
+        <a href="tel:+902120000000">0 (212) 000 00 00</a>
+        <a href="mailto:info@tulleperde.com">info@tulleperde.com</a>
+        <a href="#iletisim">Instagram</a>
+      </div>
+    </div>
+    <div class="ftr__bottom">© 2026 Tulle Perde. Tüm hakları saklıdır.</div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
