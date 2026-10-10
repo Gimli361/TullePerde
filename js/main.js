@@ -12,7 +12,7 @@
   setTimeout(function () { body.classList.add('is-loaded'); }, 1800);
 
   // ===== Görseller: images/<slot>.jpg|.webp|.png varsa yükle, yoksa yer tutucu kalır =====
-  var exts = ['jpg', 'webp', 'png'];
+  var exts = ['webp', 'jpg', 'png'];
   document.querySelectorAll('.slot[data-slot]').forEach(function (slot) {
     var name = slot.getAttribute('data-slot');
     var i = 0;
@@ -25,13 +25,15 @@
   });
 
   // ===== Header durumu =====
-  function syncHeader() { hdr.classList.toggle('is-solid', state.scrolled || state.menu); hdr.classList.toggle('is-menu', state.menu); }
+  var solidPage = body.classList.contains('page-solid');
+  function syncHeader() { hdr.classList.toggle('is-solid', solidPage || state.scrolled || state.menu); hdr.classList.toggle('is-menu', state.menu); }
   function onScroll() {
     var s = window.scrollY > 18;
     if (s !== state.scrolled) { state.scrolled = s; syncHeader(); }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+  syncHeader();
 
   function setMenu(v) { if (state.menu !== v) { state.menu = v; syncHeader(); } }
   hdr.querySelectorAll('[data-menu]').forEach(function (a) {
@@ -51,8 +53,10 @@
   window.addEventListener('resize', function () { if (window.innerWidth >= 1100) setMobile(false); });
 
   // ===== Arama =====
-  var products = Array.prototype.map.call(document.querySelectorAll('#productGrid .card'), function (c) {
-    return { name: c.getAttribute('data-name'), code: c.getAttribute('data-code') };
+  var products = window.PRODUCTS ? window.PRODUCTS.map(function (p) {
+    return { name: p.name, code: p.category + ' · ' + p.sub, href: 'urun.html?slug=' + encodeURIComponent(p.slug) };
+  }) : Array.prototype.map.call(document.querySelectorAll('#productGrid .card'), function (c) {
+    return { name: c.getAttribute('data-name'), code: c.getAttribute('data-code'), href: '#urunler' };
   });
   function setSearch(v) {
     sr.classList.toggle('is-open', v);
@@ -73,7 +77,7 @@
     }
     found.forEach(function (p) {
       var a = document.createElement('a');
-      a.href = '#urunler';
+      a.href = p.href;
       var n = document.createElement('span'); n.textContent = p.name;
       var c = document.createElement('span'); c.textContent = p.code;
       a.appendChild(n); a.appendChild(c);

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ürün — Tulle Perde</title>
+<meta name="description" content="Vinaldi perde ürün detayı ve renk seçenekleri.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-solid">
+
+<!-- Logo sembolü (header, loader ve footer'da tekrar kullanılır) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="logo-mark">
+      <path d="M0 2.5H80 M40 2.5V45"/><path d="M102.5 0V20C102.5 36 116 42.5 135 42.5C154 42.5 167.5 36 167.5 20V0"/><path d="M192.5 0V42.5H250"/><path d="M272.5 0V42.5H330"/><path d="M410 2.5H352.5V42.5H410 M352.5 22.5H402"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- ===== HEADER ===== -->
+<header class="hdr" id="hdr">
+  <div class="hdr__inner">
+    <a href="index.html#top" class="hdr__logo" aria-label="Tulle Perde">
+      <svg width="128" height="31" viewBox="0 0 410 98"><use href="#logo-mark" class="logo-strokes"/><text x="0" y="88" textLength="410" lengthAdjust="spacing" class="logo-text">perde</text></svg>
+    </a>
+    <nav class="hdr__nav" aria-label="Ana menü">
+      <a href="index.html#top" class="ulink" data-menu="close">Ana Sayfa</a>
+      <a href="index.html#koleksiyon" class="ulink" data-menu="open">Koleksiyon</a>
+      <a href="index.html#hikaye" class="ulink" data-menu="close">Hikayemiz</a>
+      <a href="index.html#urunler" class="ulink" data-menu="close">Yeni Sezon</a>
+      <a href="index.html#iletisim" class="ulink" data-menu="close">İletişim</a>
+      <a href="index.html#randevu" class="hdr__cta" data-menu="close">Ölçü Randevusu</a>
+    </nav>
+    <div class="hdr__tools">
+      <button class="hdr__search" id="openSearch" aria-label="Ürün ara">
+        <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5"/><path d="M11 11L15 15"/></svg>
+      </button>
+      <button class="hdr__burger" id="openMobile" aria-label="Menü">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <!-- Koleksiyon alt menüsü -->
+  <div class="mega" id="mega">
+    <div class="mega__inner">
+      <div class="mega__intro">
+        <span class="eyebrow-sm">Koleksiyon</span>
+        <span class="mega__lead">Her pencere için hafif ve sakin dokular</span>
+      </div>
+      <div class="mega__grid">
+        <a href="tul-perde.html" class="mega__item"><span class="num">01</span><span class="mega__name">Tül Perde</span><span class="mega__line">Işığı süzen, ince dokulu tüller</span></a>
+        <a href="fon-perde.html" class="mega__item"><span class="num">02</span><span class="mega__name">Fon Perde</span><span class="mega__line">Keten ve kadife fonlar</span></a>
+        <!-- STOR (şimdilik kapalı): <a href="index.html#koleksiyon" class="mega__item"><span class="num">03</span><span class="mega__name">Stor &amp; Zebra</span><span class="mega__line">Sade ve mekanizmalı çözümler</span></a> -->
+        <a href="index.html#randevu" class="mega__item"><span class="num">04</span><span class="mega__name">Ölçüye Özel</span><span class="mega__line">Her pencereye göre dikim</span></a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobil menü -->
+<div class="mob" id="mob" aria-hidden="true">
+  <button class="mob__close" data-close-mobile aria-label="Kapat">×</button>
+  <a href="index.html#top" data-close-mobile>Ana Sayfa</a>
+  <a href="index.html#koleksiyon" data-close-mobile>Koleksiyon</a>
+  <a href="tul-perde.html" data-close-mobile>Tül Perde</a>
+  <a href="fon-perde.html" data-close-mobile>Fon Perde</a>
+  <a href="index.html#hikaye" data-close-mobile>Hikayemiz</a>
+  <a href="index.html#urunler" data-close-mobile>Yeni Sezon</a>
+  <a href="index.html#iletisim" data-close-mobile>İletişim</a>
+</div>
+
+<!-- Arama -->
+<div class="sr" id="sr" aria-hidden="true">
+  <div class="sr__backdrop" data-close-search></div>
+  <div class="sr__panel" role="dialog" aria-label="Ürün ara">
+    <div class="sr__head">
+      <span class="sr__title">Ürün ara</span>
+      <button class="sr__close" data-close-search aria-label="Kapat">×</button>
+    </div>
+    <input id="srInput" type="search" placeholder="Ürün adı veya kod yazın…" autocomplete="off">
+    <div class="sr__results" id="srResults"></div>
+  </div>
+</div>
+
+<main id="top">
+  <section class="page-head catalog">
+    <div class="wrap wrap--wide">
+      <nav class="crumbs" aria-label="Konum"><a href="index.html">Ana Sayfa</a><span>/</span><a id="crumbCat" href="index.html#koleksiyon">Koleksiyon</a><span>/</span><span id="crumbName"></span></nav>
+      <div class="pd" id="productDetail">
+        <div class="pd__gallery">
+          <div class="pd__main"><img id="pdMainImg" alt="" decoding="async"></div>
+          <div class="pd__thumbs" id="pdThumbs"></div>
+        </div>
+        <div class="pd__info">
+          <span class="eyebrow" id="pdKicker"></span>
+          <h1 id="pdName"></h1>
+          <p class="pd__lede" id="pdLede"></p>
+          <dl class="pd__specs">
+            <div><dt>Marka</dt><dd id="pdBrand"></dd></div>
+            <div><dt>Kategori</dt><dd id="pdCategory"></dd></div>
+            <div><dt>İçerik</dt><dd id="pdContent"></dd></div>
+            <div><dt>Seçili renk</dt><dd id="pdSelected"></dd></div>
+          </dl>
+          <div class="pd__colors">
+            <div class="pd__colors-head"><h2>Renk Seçenekleri</h2><span id="pdColorCount"></span></div>
+            <div class="swatches" id="pdSwatches"></div>
+          </div>
+          <div class="btns">
+            <a href="index.html#randevu" class="btn btn--dark">Ölçü Randevusu</a>
+            <a href="index.html#iletisim" class="btn btn--outline">Bilgi Al</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer id="iletisim" class="ftr">
+  <div class="wrap">
+    <div class="ftr__grid">
+      <div class="ftr__brand">
+        <svg width="170" height="41" viewBox="0 0 410 98"><use href="#logo-mark" class="logo-strokes"/><text x="0" y="88" textLength="410" lengthAdjust="spacing" class="logo-text">perde</text></svg>
+        <p>Ölçüye özel tül, fon ve stor perde.</p>
+        <span class="ftr__motto">— Hafif, sakin, zarif</span>
+      </div>
+      <div class="ftr__col">
+        <span class="ftr__h">Menü</span>
+        <a href="index.html#top">Ana Sayfa</a><a href="index.html#koleksiyon">Koleksiyon</a><a href="index.html#hikaye">Hikayemiz</a><a href="index.html#urunler">Yeni Sezon</a><a href="index.html#iletisim">İletişim</a>
+      </div>
+      <div class="ftr__col">
+        <span class="ftr__h">Koleksiyon</span>
+        <a href="tul-perde.html">Tül Perde</a><a href="fon-perde.html">Fon Perde</a><!-- STOR: <a href="index.html#koleksiyon">Stor &amp; Zebra</a> --><a href="index.html#randevu">Ölçüye Özel</a>
+      </div>
+      <div class="ftr__col">
+        <span class="ftr__h">İletişim</span>
+        <span>Showroom adresi</span>
+        <a href="tel:+902120000000">0 (212) 000 00 00</a>
+        <a href="mailto:info@tulleperde.com">info@tulleperde.com</a>
+        <a href="index.html#iletisim">Instagram</a>
+      </div>
+    </div>
+    <div class="ftr__bottom">© 2026 Tulle Perde. Tüm hakları saklıdır.</div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/catalog.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
