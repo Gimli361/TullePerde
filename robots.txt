@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gimli361.github.io/TullePerde/sitemap.xml

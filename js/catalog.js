@@ -18,6 +18,34 @@
     return i;
   }
 
+  // Kaynak verideki "Colour 03" adlarını Türkçe göster
+  products.forEach(function (p) {
+    p.colors.forEach(function (c) { c.name = c.name.replace(/\bColou?r\b/gi, 'Renk'); });
+  });
+
+  function productUrl(p) { return 'urun.html?slug=' + encodeURIComponent(p.slug); }
+
+  // Katalog, ürün sayfası "benzer ürünler" ve filtre için ortak kart
+  function card(p, i) {
+    var a = el('a', 'card reveal');
+    a.href = productUrl(p);
+    a.style.setProperty('--d', (i % 4) * 0.08 + 's');
+    var media = el('div', 'card__media');
+    var zoom = el('div', 'card__zoom');
+    zoom.appendChild(img(p.cover, p.name + ' ' + p.sub, true));
+    media.appendChild(zoom);
+    media.appendChild(el('span', 'card__tag', p.brand));
+    var body = el('div', 'card__body');
+    var txt = el('div');
+    txt.appendChild(el('span', 'card__name', p.name));
+    txt.appendChild(el('span', 'card__code', p.sub + ' · ' + p.colors.length + ' renk'));
+    body.appendChild(txt);
+    body.appendChild(el('span', 'card__arrow', '→'));
+    a.appendChild(media);
+    a.appendChild(body);
+    return a;
+  }
+
   // ===== Liste sayfası =====
   var grid = document.getElementById('catalogGrid');
   if (grid && cat) {
@@ -25,25 +53,45 @@
     var count = document.getElementById('catalogCount');
     if (count) count.textContent = list.length + ' ürün';
     if (!list.length) grid.appendChild(el('p', 'catalog__empty', 'Ürün bulunamadı.'));
-    list.forEach(function (p, i) {
-      var a = el('a', 'card reveal');
-      a.href = 'urun.html?slug=' + encodeURIComponent(p.slug);
-      a.style.setProperty('--d', (i % 4) * 0.08 + 's');
-      var media = el('div', 'card__media');
-      var zoom = el('div', 'card__zoom');
-      zoom.appendChild(img(p.cover, p.name, true));
-      media.appendChild(zoom);
-      media.appendChild(el('span', 'card__tag', p.brand));
-      var body = el('div', 'card__body');
-      var txt = el('div');
-      txt.appendChild(el('span', 'card__name', p.name));
-      txt.appendChild(el('span', 'card__code', p.sub + ' · ' + p.colors.length + ' renk'));
-      body.appendChild(txt);
-      body.appendChild(el('span', 'card__arrow', '→'));
-      a.appendChild(media);
-      a.appendChild(body);
-      grid.appendChild(a);
-    });
+    var cards = list.map(function (p, i) { var c = card(p, i); grid.appendChild(c); return c; });
+
+    // Seri filtresi: aynı isimli ürünleri (ör. 12 "Molara Fonluk") tek dokunuşla süz
+    var filters = document.getElementById('catalogFilters');
+    var series = {};
+    list.forEach(function (p) { series[p.name] = (series[p.name] || 0) + 1; });
+    var names = Object.keys(series).sort(function (a, b) { return a.localeCompare(b, 'tr'); });
+    if (filters && names.length > 1) {
+      var catParams = new URLSearchParams(location.search);
+      var chips = [];
+      var applyFilter = function (name, fromUser) {
+        cards.forEach(function (c, i) {
+          c.hidden = !(!name || list[i].name === name);
+        });
+        chips.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-seri') === (name || ''))); });
+        if (count) count.textContent = (name ? series[name] : list.length) + ' ürün';
+        if (fromUser) {
+          if (name) catParams.set('seri', name); else catParams.delete('seri');
+          var qs = catParams.toString();
+          history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+        }
+      };
+      var addChip = function (label, value, n) {
+        var b = el('button', 'chip');
+        b.type = 'button';
+        b.setAttribute('data-seri', value);
+        b.setAttribute('aria-pressed', 'false');
+        b.appendChild(document.createTextNode(label));
+        b.appendChild(el('span', 'chip__n', String(n)));
+        b.addEventListener('click', function () { applyFilter(value, true); });
+        filters.appendChild(b);
+        chips.push(b);
+      };
+      addChip('Tümü', '', list.length);
+      names.forEach(function (n) { addChip(n, n, series[n]); });
+      filters.hidden = false;
+      var startSeri = catParams.get('seri');
+      applyFilter(series[startSeri] ? startSeri : '', false);
+    }
   }
 
   // ===== Ürün detay sayfası =====
@@ -132,6 +180,10 @@
     selectedLabel.textContent = c.name;
     badgeName.textContent = c.name;
     barColor.textContent = c.name;
+    // WhatsApp mesajı seçili ürün ve rengi, ürün bağlantısıyla birlikte taşır
+    var link = location.origin + location.pathname + '?slug=' + encodeURIComponent(p.slug) + '&renk=' + (idx + 1);
+    var msg = 'Merhaba, ' + p.name + ' (' + p.sub + ') — ' + c.name + ' hakkında bilgi almak istiyorum. ' + link;
+    ['pdWa', 'pdBarWa'].forEach(function (id) { var w = document.getElementById(id); if (w) w.setAttribute('data-wa', msg); });
     pickerName.textContent = c.name;
 
     track.classList.add('is-swapping');
@@ -208,5 +260,25 @@
       bar.setAttribute('aria-hidden', String(!show));
       bar.querySelector('a').tabIndex = show ? 0 : -1;
     }).observe(actions);
+  }
+
+  // ===== Benzer ürünler: önce aynı seriden, sonra aynı kategoriden =====
+  var related = document.getElementById('related');
+  var relatedGrid = document.getElementById('relatedGrid');
+  if (related && relatedGrid) {
+    var same = products.filter(function (x) { return x !== p && x.type === p.type && x.name === p.name; });
+    var pool = products.filter(function (x) { return x !== p && x.type === p.type && x.name !== p.name; });
+    // Sayfadan sayfaya sabit ama ürüne göre değişen sıra (her seferinde aynı ürünler gelsin)
+    var seed = 0;
+    for (var k = 0; k < p.slug.length; k++) seed = (seed * 31 + p.slug.charCodeAt(k)) >>> 0;
+    var offset = pool.length ? seed % pool.length : 0;
+    pool = pool.slice(offset).concat(pool.slice(0, offset));
+    // Aynı seriden en fazla 4, kalanı farklı serilerden: çeşitlilik kalsın
+    var picks = same.slice(0, 4).concat(pool).slice(0, 8);
+    picks.forEach(function (x, i) { relatedGrid.appendChild(card(x, i)); });
+    var all = document.getElementById('relatedAll');
+    all.href = CAT_PAGE[p.type];
+    all.firstChild.textContent = 'Tüm ' + p.category.toLocaleLowerCase('tr') + 'ler ';
+    related.hidden = !picks.length;
   }
 })();

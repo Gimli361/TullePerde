@@ -1,4 +1,8 @@
 (function () {
+  // ===== WhatsApp numarası: ülke koduyla, boşluksuz (örn. '905321234567') =====
+  // Boş bırakılırsa WhatsApp açılır ve kişi seçtirir; numara girilince doğrudan mağazaya yazar.
+  var WHATSAPP_NUMBER = '';
+
   var body = document.body;
   var hdr = document.getElementById('hdr');
   var mob = document.getElementById('mob');
@@ -16,6 +20,22 @@
     setTimeout(function () { body.classList.add('is-drawn'); }, 80);
     setTimeout(function () { body.classList.add('is-loaded'); }, 1800);
   }
+
+  // ===== WhatsApp bağlantıları: data-wa="mesaj" taşıyan her link =====
+  function waHref(msg) {
+    return 'https://wa.me/' + WHATSAPP_NUMBER.replace(/\D/g, '') + '?text=' + encodeURIComponent(msg);
+  }
+  function syncWa(a) { a.href = waHref(a.getAttribute('data-wa') || 'Merhaba'); }
+  document.querySelectorAll('[data-wa]').forEach(function (a) {
+    a.target = '_blank';
+    a.rel = 'noopener';
+    syncWa(a);
+  });
+  // Mesaj sayfada değişebilir (ör. seçili renk); tıklama anında güncelle
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-wa]');
+    if (a) syncWa(a);
+  }, true);
 
   // ===== Görseller: images/<slot>.jpg|.webp|.png varsa yükle, yoksa yer tutucu kalır =====
   var exts = ['webp', 'jpg', 'png'];
@@ -69,11 +89,18 @@
     sr.setAttribute('aria-hidden', String(!v));
     if (v) { setMenu(false); setTimeout(function () { srInput.focus(); }, 60); }
   }
+  // Türkçe karaktersiz yazımı da eşleştir: "nakis" → "nakış", "TUL" → "Tül"
+  var TR = { 'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u', 'â': 'a', 'î': 'i', 'û': 'u' };
+  function norm(t) {
+    return t.toLocaleLowerCase('tr').replace(/[çğıöşüâîû]/g, function (c) { return TR[c]; }).replace(/\s+/g, ' ');
+  }
+  products.forEach(function (p) { p.key = norm(p.name + ' ' + p.code); });
   function renderResults() {
-    var q = srInput.value.trim().toLocaleLowerCase('tr');
+    var q = norm(srInput.value.trim());
     srResults.innerHTML = '';
     if (!q) return;
-    var found = products.filter(function (p) { return (p.name + ' ' + p.code).toLocaleLowerCase('tr').indexOf(q) !== -1; });
+    var words = q.split(' ');
+    var found = products.filter(function (p) { return words.every(function (w) { return p.key.indexOf(w) !== -1; }); });
     if (!found.length) {
       var e = document.createElement('span');
       e.className = 'sr__empty';

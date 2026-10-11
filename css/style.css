@@ -138,7 +138,7 @@ body.is-loaded .loader { opacity: 0; visibility: hidden; }
   transition: background-size .55s var(--ease-out);
 }
 .ulink:hover, .ulink:focus-visible { background-size: 100% 1px; background-position: left bottom; }
-.hdr__cta { padding: 10px 18px; border: 1px solid currentColor; transition: background .35s, color .35s, border-color .35s; }
+.hdr__cta { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 1px solid currentColor; transition: background .35s, color .35s, border-color .35s; }
 .hdr__cta:hover { background: var(--navy); color: var(--cream); border-color: var(--navy); }
 
 .hdr__tools { display: flex; align-items: center; gap: 8px; margin-left: 8px; }
@@ -198,6 +198,7 @@ body.is-loaded .loader { opacity: 0; visibility: hidden; }
 .mob.is-open { opacity: 1; transform: none; pointer-events: auto; }
 .mob a { flex-shrink: 0; font-family: var(--serif); font-size: clamp(26px, 8vw, 34px); line-height: 1.2; padding: 14px 0; border-bottom: 1px solid var(--sand); }
 @media (max-height: 520px) { .mob { padding-top: 72px; } .mob a { font-size: 24px; padding: 10px 0; } }
+.mob a.mob__wa { display: flex; align-items: center; gap: 12px; margin-top: 24px; padding: 16px 20px; border: 1px solid var(--navy); font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; }
 .mob__close {
   position: absolute; top: 18px; right: 18px; width: 44px; height: 44px;
   background: none; border: 0; font-size: 28px; color: var(--navy); cursor: pointer;
@@ -236,6 +237,7 @@ body.is-loaded .loader { opacity: 0; visibility: hidden; }
 .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
 .btns--center { justify-content: center; }
 .btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   padding: 17px 34px; font-size: 11px; font-weight: 500; letter-spacing: .3em; text-transform: uppercase;
   transition: background .35s, color .35s, border-color .35s;
 }
@@ -291,7 +293,7 @@ body.is-loaded .cover__text { opacity: 1; transform: none; }
   max-width: 760px; margin: 0 auto clamp(42px, 6vw, 80px);
   text-align: center; display: flex; flex-direction: column; align-items: center;
 }
-.sec-head h2 { margin: 18px 0 0; font-size: clamp(34px, 4.2vw, 60px); line-height: 1.06; }
+.sec-head h1, .sec-head h2 { margin: 18px 0 0; font-size: clamp(34px, 4.2vw, 60px); line-height: 1.06; }
 .sec-head p { margin: 18px 0 0; max-width: 560px; font-size: 15px; }
 .vline { width: 1px; height: 56px; background: var(--navy); margin-bottom: 26px; }
 .vline--light { background: var(--cream); }
@@ -357,6 +359,17 @@ body.is-loaded .cover__text { opacity: 1; transform: none; }
 .tab.is-active { background: var(--navy); color: var(--cream); border-color: var(--navy); }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: clamp(16px, 1.6vw, 24px); }
+/* Telefonda iki sütun: 44 ürünlük katalog 35 ekran yerine ~10 ekran */
+@media (max-width: 767px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; }
+  .grid .card__media { aspect-ratio: 4 / 5; }
+  .grid .card__body { padding: 10px 12px 12px; }
+  .grid .card__name { font-size: 13px; letter-spacing: .1em; }
+  .grid .card__code { font-size: 11px; line-height: 1.4; }
+  .grid .card__arrow { display: none; }
+  .grid .card__tag { top: 8px; left: 8px; padding: 3px 7px; font-size: 8px; }
+  .related .card:nth-child(n + 7) { display: none; }
+}
 .card {
   display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--sand);
   opacity: 0;
@@ -393,6 +406,35 @@ body.is-loaded .cover__text { opacity: 1; transform: none; }
 .catalog { padding: 0 0 var(--section-y); }
 .page-head.catalog { padding-top: calc(var(--section-y) * .6 + 70px); }
 .catalog__empty { text-align: center; font-size: 15px; padding: 40px 0; }
+
+/* Seri filtresi */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(24px, 3vw, 40px); }
+.chips[hidden] { display: none; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 16px;
+  border: 1px solid var(--sand); background: transparent; color: var(--navy); cursor: pointer; white-space: nowrap;
+  font-size: 12px; letter-spacing: .06em; transition: background .3s, color .3s, border-color .3s;
+}
+.chip__n { font-size: 10px; opacity: .6; font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+@media (hover: hover) { .chip:hover { border-color: var(--navy); } }
+/* Telefonda tek satır, yana kaydırılır; sayfanın boyunu uzatmaz */
+@media (max-width: 767px) {
+  .chips {
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
+    margin-left: calc(var(--gutter) * -1); margin-right: calc(var(--gutter) * -1); padding: 0 var(--gutter);
+  }
+  .chips::-webkit-scrollbar { display: none; }
+}
+
+/* Benzer ürünler (ürün sayfası) */
+.related { padding: 0 0 var(--section-y); }
+.related__head {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;
+  padding-top: clamp(40px, 5vw, 72px); margin-bottom: clamp(24px, 3vw, 40px); border-top: 1px solid var(--sand);
+}
+.related__head h2 { margin: 0; font-size: clamp(30px, 3.4vw, 48px); line-height: 1.06; }
+.page-head.catalog:has(+ .related:not([hidden])) { padding-bottom: clamp(56px, 7vw, 100px); }
 
 /* Ürün detay */
 .pd { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
@@ -499,6 +541,9 @@ body.is-loaded .cover__text { opacity: 1; transform: none; }
   .pd-bar .btn { padding: 13px 18px; letter-spacing: .2em; white-space: nowrap; }
 }
 
+/* WhatsApp ikonu (buton ve header) */
+.i-wa { flex-shrink: 0; display: block; }
+
 /* ===== CTA ===== */
 .cta { background: var(--navy); color: var(--cream); padding: clamp(80px, 10vw, 140px) var(--gutter); }
 .cta .sec-head { margin-bottom: 0; }
@@ -537,7 +582,7 @@ body.is-loaded .cover__text { opacity: 1; transform: none; }
   .cover h1 { font-size: clamp(96px, 5.4vw, 140px); max-width: 1200px; }
   .cover p, .sec-head p, .split__text p { font-size: 17px; }
   .sec-head { max-width: 900px; }
-  .sec-head h2, .split__text h2 { font-size: clamp(60px, 3.4vw, 84px); }
+  .sec-head h1, .sec-head h2, .split__text h2 { font-size: clamp(60px, 3.4vw, 84px); }
   .sec-head p { max-width: 680px; }
   .split__text { max-width: 640px; }
   .products__title h2 { font-size: clamp(54px, 3vw, 76px); }
@@ -567,7 +612,7 @@ body.is-loaded .cover__text { opacity: 1; transform: none; }
   .hdr__search { width: 48px; height: 48px; }
   .cover h1 { font-size: clamp(140px, 5.2vw, 190px); max-width: 1500px; }
   .cover p, .sec-head p, .split__text p { font-size: 19px; }
-  .sec-head h2, .split__text h2 { font-size: clamp(84px, 3.4vw, 110px); }
+  .sec-head h1, .sec-head h2, .split__text h2 { font-size: clamp(84px, 3.4vw, 110px); }
   .split__text { max-width: 760px; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 32px; }
   .card__name { font-size: 19px; }
