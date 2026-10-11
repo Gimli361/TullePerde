@@ -8,8 +8,14 @@
   var state = { scrolled: false, menu: false };
 
   // ===== Açılış animasyonu =====
-  setTimeout(function () { body.classList.add('is-drawn'); }, 80);
-  setTimeout(function () { body.classList.add('is-loaded'); }, 1800);
+  // Yalnızca oturumdaki ilk girişte oynar; site içi gezinmede ve geri dönüşte atlanır.
+  if (document.documentElement.classList.contains('skip-intro')) {
+    requestAnimationFrame(function () { requestAnimationFrame(function () { body.classList.add('is-drawn', 'is-loaded'); }); });
+  } else {
+    try { sessionStorage.setItem('tp-intro', '1'); } catch (e) {}
+    setTimeout(function () { body.classList.add('is-drawn'); }, 80);
+    setTimeout(function () { body.classList.add('is-loaded'); }, 1800);
+  }
 
   // ===== Görseller: images/<slot>.jpg|.webp|.png varsa yükle, yoksa yer tutucu kalır =====
   var exts = ['webp', 'jpg', 'png'];

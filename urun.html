@@ -2,13 +2,15 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ürün — Tulle Perde</title>
 <meta name="description" content="Vinaldi perde ürün detayı ve renk seçenekleri.">
+<meta name="theme-color" content="#F7F4EF">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="page-solid">
@@ -92,8 +94,19 @@
     <div class="wrap wrap--wide">
       <nav class="crumbs" aria-label="Konum"><a href="index.html">Ana Sayfa</a><span>/</span><a id="crumbCat" href="index.html#koleksiyon">Koleksiyon</a><span>/</span><span id="crumbName"></span></nav>
       <div class="pd" id="productDetail">
-        <div class="pd__gallery">
-          <div class="pd__main"><img id="pdMainImg" alt="" decoding="async"></div>
+        <div class="pd__gallery" id="pdGallery">
+          <div class="pd__main">
+            <div class="pd__track" id="pdTrack" aria-roledescription="carousel"></div>
+            <span class="pd__badge"><span id="pdBadgeName"></span><span class="pd__count" id="pdCounter"></span></span>
+            <button type="button" class="pd__zoom" id="pdZoom" aria-label="Görseli büyüt">
+              <svg width="18" height="18" viewBox="0 0 18 18"><circle cx="7.5" cy="7.5" r="5.5"/><path d="M11.5 11.5L17 17 M7.5 5V10 M5 7.5H10"/></svg>
+            </button>
+          </div>
+          <!-- Mobilde tek renk seçici: görselin hemen altında (masaüstünde sağdaki ızgara kullanılır) -->
+          <div class="pd__picker" id="pdPicker">
+            <div class="pd__picker-head"><span class="pd__picker-k">Renk</span><span class="pd__picker-name" id="pdPickerName"></span><span class="pd__picker-n" id="pdPickerCount"></span></div>
+            <div class="pd__strip" id="pdStrip" role="group" aria-label="Renk seçenekleri"></div>
+          </div>
           <div class="pd__thumbs" id="pdThumbs"></div>
         </div>
         <div class="pd__info">
@@ -110,7 +123,7 @@
             <div class="pd__colors-head"><h2>Renk Seçenekleri</h2><span id="pdColorCount"></span></div>
             <div class="swatches" id="pdSwatches"></div>
           </div>
-          <div class="btns">
+          <div class="btns" id="pdActions">
             <a href="index.html#randevu" class="btn btn--dark">Ölçü Randevusu</a>
             <a href="index.html#iletisim" class="btn btn--outline">Bilgi Al</a>
           </div>
@@ -119,6 +132,12 @@
     </div>
   </section>
 </main>
+
+<!-- Mobil alt çubuk -->
+<div class="pd-bar" id="pdBar" aria-hidden="true">
+  <div class="pd-bar__txt"><span class="pd-bar__k">Seçili renk</span><span id="pdBarColor"></span></div>
+  <a href="index.html#randevu" class="btn btn--dark" tabindex="-1">Ölçü Randevusu</a>
+</div>
 
 <!-- ===== FOOTER ===== -->
 <footer id="iletisim" class="ftr">
@@ -152,5 +171,40 @@
 <script src="js/products.js"></script>
 <script src="js/catalog.js"></script>
 <script src="js/main.js"></script>
+<script type="module">
+  // Görsel büyütme: PhotoSwipe (pinch/çift dokunma zoom, kaydırarak geçiş, aşağı çekerek kapatma)
+  import PhotoSwipeLightbox from 'https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js';
+  const PSWP = 'https://cdn.jsdelivr.net/npm/photoswipe@5.4.4/dist/photoswipe.esm.min.js';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const size = (src) => new Promise((done) => {
+    const i = new Image();
+    i.onload = () => done({ src, width: i.naturalWidth, height: i.naturalHeight, alt: '' });
+    i.onerror = () => done({ src, width: 800, height: 800, alt: '' });
+    i.src = src;
+  });
+  // Küçük kaynak görselleri ekrana sığacak kadar (en fazla 1.6x) büyüterek açar
+  const fitUp = (zl) => {
+    if (!zl.elementSize || !zl.panAreaSize || !zl.elementSize.x) return zl.fit;
+    const r = Math.min(zl.panAreaSize.x / zl.elementSize.x, zl.panAreaSize.y / zl.elementSize.y);
+    return Math.min(Math.max(r, 0.05), 1.6);
+  };
+  window.tpLightbox = async function (srcs, index, onChange) {
+    const items = await Promise.all(srcs.map(size));
+    const lb = new PhotoSwipeLightbox({
+      dataSource: items,
+      pswpModule: () => import(PSWP),
+      bgOpacity: 0.94,
+      showHideAnimationType: reduce ? 'none' : 'fade',
+      initialZoomLevel: fitUp,
+      secondaryZoomLevel: (zl) => fitUp(zl) * 2.2,
+      maxZoomLevel: (zl) => fitUp(zl) * 4,
+      closeTitle: 'Kapat', zoomTitle: 'Yakınlaştır', arrowPrevTitle: 'Önceki', arrowNextTitle: 'Sonraki',
+      errorMsg: 'Görsel yüklenemedi.', indexIndicatorSep: ' / '
+    });
+    lb.on('change', () => { if (onChange) onChange(lb.pswp.currIndex); });
+    lb.init();
+    lb.loadAndOpen(index);
+  };
+</script>
 </body>
 </html>
