@@ -1,7 +1,7 @@
-"""sitemap.xml üretir: sabit sayfalar + js/products.js içindeki her ürün.
+"""sitemap.xml üretir: sabit sayfalar + js/products.js ve js/products-premier.js içindeki her ürün.
 
 Kullanım (proje kökünden):  python tools/build_sitemap.py
-Ürünler import_vinaldi.py ile güncellendikten sonra yeniden çalıştırın.
+Ürünler import_vinaldi.py / import_premier.py ile güncellendikten sonra yeniden çalıştırın.
 """
 import datetime
 import json
@@ -11,8 +11,10 @@ from xml.sax.saxutils import escape
 BASE = 'https://gimli361.github.io/TullePerde/'
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-src = open(os.path.join(ROOT, 'js', 'products.js'), encoding='utf-8').read()
-products = json.loads(src[src.index('['):src.rindex(']') + 1])
+products = []
+for name in ('products.js', 'products-premier.js'):
+    src = open(os.path.join(ROOT, 'js', name), encoding='utf-8').read()
+    products += json.loads(src[src.index('[\n'):src.rindex(']') + 1])
 today = datetime.date.today().isoformat()
 
 urls = [('', '1.0'), ('tul-perde.html', '0.9'), ('fon-perde.html', '0.9')]

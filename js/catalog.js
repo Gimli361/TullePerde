@@ -55,20 +55,33 @@
     if (!list.length) grid.appendChild(el('p', 'catalog__empty', 'Ürün bulunamadı.'));
     var cards = list.map(function (p, i) { var c = card(p, i); grid.appendChild(c); return c; });
 
-    // Seri filtresi: aynı isimli ürünleri (ör. 12 "Molara Fonluk") tek dokunuşla süz
+    // Marka ve seri filtresi: markayı ya da aynı isimli ürünleri (ör. 12 "Molara Fonluk")
+    // tek dokunuşla süz. Tek ürünlük seriler çip olarak gösterilmez.
     var filters = document.getElementById('catalogFilters');
-    var series = {};
-    list.forEach(function (p) { series[p.name] = (series[p.name] || 0) + 1; });
-    var names = Object.keys(series).sort(function (a, b) { return a.localeCompare(b, 'tr'); });
-    if (filters && names.length > 1) {
+    var series = {}, brands = {};
+    list.forEach(function (p) {
+      series[p.name] = (series[p.name] || 0) + 1;
+      brands[p.brand] = (brands[p.brand] || 0) + 1;
+    });
+    var byName = function (a, b) { return a.localeCompare(b, 'tr'); };
+    var names = Object.keys(series).filter(function (n) { return series[n] > 1; }).sort(byName);
+    var brandNames = Object.keys(brands).sort(byName);
+    var BRAND = 'marka:';
+    var matches = function (p, value) {
+      if (!value) return true;
+      return value.indexOf(BRAND) === 0 ? p.brand === value.slice(BRAND.length) : p.name === value;
+    };
+    if (filters && names.length + brandNames.length > 1) {
       var catParams = new URLSearchParams(location.search);
       var chips = [];
       var applyFilter = function (name, fromUser) {
+        var shown = 0;
         cards.forEach(function (c, i) {
-          c.hidden = !(!name || list[i].name === name);
+          c.hidden = !matches(list[i], name);
+          if (!c.hidden) shown++;
         });
         chips.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-seri') === (name || ''))); });
-        if (count) count.textContent = (name ? series[name] : list.length) + ' ürün';
+        if (count) count.textContent = shown + ' ürün';
         if (fromUser) {
           if (name) catParams.set('seri', name); else catParams.delete('seri');
           var qs = catParams.toString();
@@ -87,10 +100,12 @@
         chips.push(b);
       };
       addChip('Tümü', '', list.length);
+      if (brandNames.length > 1) brandNames.forEach(function (b) { addChip(b, BRAND + b, brands[b]); });
       names.forEach(function (n) { addChip(n, n, series[n]); });
       filters.hidden = false;
-      var startSeri = catParams.get('seri');
-      applyFilter(series[startSeri] ? startSeri : '', false);
+      var startSeri = catParams.get('seri') || '';
+      var valid = chips.some(function (b) { return b.getAttribute('data-seri') === startSeri; });
+      applyFilter(valid ? startSeri : '', false);
     }
   }
 

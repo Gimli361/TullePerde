@@ -15,3 +15,7 @@ Not: Bir görselin hem .webp hem .jpg sürümü varsa .webp kullanılır.
 urunler/        Vinaldi Fon ve Tül Perde ürün görselleri. Elle düzenlemeyin;
                 güncellemek için:  python tools/import_vinaldi.py
                 (js/products.js de bu komutla yeniden üretilir.)
+
+premier/        Premier Home Fon ve Tül Perde ürün görselleri. Elle düzenlemeyin;
+                güncellemek için:  python tools/import_premier.py
+                (js/products-premier.js de bu komutla yeniden üretilir.)
